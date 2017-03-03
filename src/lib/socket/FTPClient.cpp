@@ -9,13 +9,16 @@ FTPClient::FTPClient(string server_ip, uint16_t port, string user, string passwo
     this->user = user;
     this->password = password;
     this->passive_mode = passive_mode;
+    this->server.sin_family = AF_INET;
+    this->server.sin_port = htons(port);
+    this->server.sin_addr.s_addr = inet_addr(&this->server_ip[0]);
 }
 
 /**
-     * Method will take a string-response for passive-mode-entry and split it out into segments and calculate port-number
-     * @param msg_227
-     * @return port number as unsigned integer
-     */
+ * Method will take a string-response for passive-mode-entry and split it out into segments and calculate port-number
+ * @param msg_227
+ * @return port number as unsigned integer
+ */
 uint16_t FTPClient::get_port_number(string msg_227) {
     // Split string where parenthesis starts and ends
     unsigned long ip_start = msg_227.find('(');
@@ -62,9 +65,6 @@ bool FTPClient::create_socket() {
  * @return boolean for success or error
  */
 bool FTPClient::open_connection(int *sock) {
-    this->server.sin_family = AF_INET;
-    this->server.sin_port = htons(port);
-    this->server.sin_addr.s_addr = inet_addr(&this->server_ip[0]);
     if (connect(*sock, (struct sockaddr *) &this->server, sizeof(this->server)) < 0) {
         return false;
     }
