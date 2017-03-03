@@ -17,31 +17,29 @@
 #include <fstream>
 #include <cassert>
 #include <experimental/filesystem>
-// Namespace usages
+
+#define SERVER_IP "130.226.195.126"
+#define FTP_PORT 21
+
 using namespace std;
 
-// uint16 Method prototypes
-uint16_t get_port_number(string msg_227);
-
-// Boolean Method prototypes
-bool create_socket(int *sock);
-
-bool open_connection(int *sock, uint16_t port, string ip);
-
-bool send_cmd(int *sock, string message);
-
-// void Method prototypes
-void raiseError(string message);
-
-void print_message(string message);
-
-void receive_file(int *sockftp, string file_path);
-
-// string Method prototypes
-string receive_response(int *sock);
-
-// int Method prototypes
-int runClient();
-
+class FTPClient
+{
+private:
+    int test;
+    struct sockaddr_in server;
+    FILE *received_file;
+public:
+    int sock_telnet, sock_ftp;
+    FTPClient();
+    uint16_t get_port_number(string msg_227);
+    void raiseError(string message);
+    bool create_socket(int *sock);
+    bool open_connection(int *sock, uint16_t port, string ip);
+    bool send_cmd(int *sock, string message);
+    void receive_file(int *sock, string file_path);
+    string receive_response(int *sock);
+    void print_message(string message);
+};
 
 #endif // CLIENTSOCKET_H

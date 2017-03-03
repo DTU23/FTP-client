@@ -40,24 +40,6 @@ cassert
 experimental/filesystem
 -
 
-/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/./lib/socket/ServerSocket.h
-iostream
--
-string.h
--
-sys/types.h
--
-sys/socket.h
--
-netinet/in.h
--
-arpa/inet.h
--
-stdlib.h
--
-unistd.h
--
-
 /home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.cpp
 ClientSocket.h
 /home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.h
@@ -121,6 +103,4 @@ unistd.h
 /home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/main.cpp
 ./lib/socket/ClientSocket.h
 /home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/./lib/socket/ClientSocket.h
-./lib/socket/ServerSocket.h
-/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/./lib/socket/ServerSocket.h
 

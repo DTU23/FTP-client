@@ -8,6 +8,5 @@ CMakeFiles/lecture2.dir/src/lib/socket/ServerSocket.cpp.o: ../src/lib/socket/Ser
 CMakeFiles/lecture2.dir/src/lib/socket/ServerSocket.cpp.o: ../src/lib/socket/ServerSocket.h
 
 CMakeFiles/lecture2.dir/src/main.cpp.o: ../src/./lib/socket/ClientSocket.h
-CMakeFiles/lecture2.dir/src/main.cpp.o: ../src/./lib/socket/ServerSocket.h
 CMakeFiles/lecture2.dir/src/main.cpp.o: ../src/main.cpp
 
