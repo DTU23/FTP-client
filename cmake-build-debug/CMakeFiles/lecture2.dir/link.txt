@@ -1,1 +1,0 @@
-/usr/bin/c++   -g   CMakeFiles/lecture2.dir/src/main.cpp.o CMakeFiles/lecture2.dir/src/lib/socket/ServerSocket.cpp.o CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o  -o lecture2 

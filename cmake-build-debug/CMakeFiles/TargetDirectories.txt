@@ -1,3 +1,0 @@
-/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/cmake-build-debug/CMakeFiles/lecture2.dir
