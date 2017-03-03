@@ -28,3 +28,6 @@
 *.out
 *.app
 cmake-build-debug/
+
+# Clion
+.idea/
