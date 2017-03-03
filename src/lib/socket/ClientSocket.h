@@ -10,11 +10,13 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <netdb.h>
 #include <unistd.h>
 #include <fstream>
 #include <cassert>
+#include <experimental/filesystem>
 // Namespace usages
 using namespace std;
 
@@ -29,16 +31,17 @@ bool open_connection(int *sock, uint16_t port, string ip);
 bool send_cmd(int *sock, string message);
 
 // void Method prototypes
-void receive_data(int *sock);
-
 void raiseError(string message);
 
 void print_message(string message);
+
+void receive_file(int *sockftp, string file_path);
 
 // string Method prototypes
 string receive_response(int *sock);
 
 // int Method prototypes
 int runClient();
+
 
 #endif // CLIENTSOCKET_H

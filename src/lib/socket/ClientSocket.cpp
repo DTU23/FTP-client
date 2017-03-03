@@ -1,11 +1,11 @@
 #include "ClientSocket.h"
 
-#define BUFSIZ 5000
 #define SERVER_IP "130.226.195.126"
 #define FTP_PORT 21
 int sock_telnet, sock_ftp;
 struct sockaddr_in server;
 FILE *received_file;
+char receive_buffer[1000000];
 
 /**
  * Method to start the process of opening socket connections and downloading file
@@ -25,39 +25,43 @@ int runClient() {
     print_message("Connection successful!");
 
     // Send initial hello command, to start communications
-    if (!send_cmd(&sock_telnet, "hello\n")) {
+    if (!send_cmd(&sock_telnet, "hello\r\n")) {
         raiseError("Data send error!");
     }
     print_message(receive_response(&sock_telnet));
 
+
     // Set user anonymous
-    if (!send_cmd(&sock_telnet, "USER anonymous\n")) {
+    if (!send_cmd(&sock_telnet, "USER anonymous\r\n")) {
         raiseError("Data send error!");
     }
+    // Get response message for USER command
+    print_message(receive_response(&sock_telnet));
+    // Get 2nd response message asking for password
     print_message(receive_response(&sock_telnet));
 
     // Send password (can be anything)
-    if (!send_cmd(&sock_telnet, "PASS pass\n")) {
+    if (!send_cmd(&sock_telnet, "PASS pass\r\n")) {
         raiseError("Data send error!");
     }
     /**
      * Todo: consider why we have to do two receives for it to work.
      */
     print_message(receive_response(&sock_telnet));
-    print_message(receive_response(&sock_telnet));
-
     // Enter passive mod
-    if (!send_cmd(&sock_telnet, "PASV\n")) {
+    if (!send_cmd(&sock_telnet, "PASV\r\n")) {
         raiseError("Data send error!");
     }
     // Translate passive mode response to socket port #
-    uint16_t port = get_port_number(receive_response(&sock_telnet));
+    string response = receive_response(&sock_telnet);
+    print_message(response);
+    uint16_t port = get_port_number(response);
     cout << "data-transfer port is: " << port << endl;
 
     /**
      * Open new socket for FTP
      */
-    // Start 2nd socket
+    // create new socket
     if (!create_socket(&sock_ftp)) {
         raiseError("Couldn't create ftp socket!");
     }
@@ -67,17 +71,20 @@ int runClient() {
     if (!open_connection(&sock_ftp, port, SERVER_IP)) {
         raiseError("Couldn't open connection!");
     }
-    print_message("connection opened");
 
     // Send retrieve command
-    if (!send_cmd(&sock_ftp, "RETR file.txt")) {
+    if (!send_cmd(&sock_telnet, "RETR file.txt\r\n")) {
         raiseError("Error receiving file.txt");
     }
-
-    /**
-     * Todo: implement file get-method
-     */
-    receive_data(&sock_ftp);
+    // Get environment variable for HOME-folder-path based off Operating system
+    string home_path = "";
+    #ifdef _WIN32
+        home_path = getenv("HOMEPATH");
+    #else
+        home_path = getenv("HOME");
+    #endif
+    // Receive file from socket.
+    receive_file(&sock_ftp, home_path+"/Desktop/file.txt");
     print_message("File retrieved");
 }
 
@@ -87,18 +94,22 @@ int runClient() {
  * @return port number as unsigned integer
  */
 uint16_t get_port_number(string msg_227) {
+    // Split string where parenthesis starts and ends
     unsigned long ip_start = msg_227.find('(');
     unsigned long ip_end = msg_227.find(')');
     string return_ip = msg_227.substr(ip_start + 1, ip_end - ip_start - 1);
 
+    // Create stringstrea from ip-string
     stringstream ss(return_ip);
     string segment;
     vector<string> seglist;
 
+    // Split string into segmentlist with ','-delimiters
     while (getline(ss, segment, ',')) {
         seglist.push_back(segment);
     }
 
+    // Return port-number calculation
     return atoi(seglist[4].c_str()) * 256 + atoi(seglist[5].c_str());
 }
 
@@ -112,7 +123,7 @@ void raiseError(string message) {
 }
 
 /**
- * Method for creating a socket
+ * Method for creating a socket from socket pointer
  * @param sock
  * @return boolean for success or error
  */
@@ -151,6 +162,7 @@ bool send_cmd(int *sock, string message) {
     if (send(*sock, message.c_str(), strlen(message.c_str()), 0) < 0) {
         return false;
     }
+    print_message(message);
     return true;
 }
 
@@ -158,29 +170,27 @@ bool send_cmd(int *sock, string message) {
  * Method for receiving file-data
  * @param sock
  */
-void receive_data(int *sock) {
-    ssize_t len;
+void receive_file(int *sock, string file_path) {
     char buffer[BUFSIZ];
-    int file_size;
-    /* Receiving file size */
-    recv(*sock, &buffer, BUFSIZ, 0);
-    print_message("test");
-    file_size = atoi(buffer);
-    received_file = fopen("/home/viktor/file.txt", "w");
+    FILE *received_file;
+
+    /* Store filesize in variable */
+    size_t n = recv(*sock, buffer, BUFSIZ, 0);
+
+    // Open file for writing
+    received_file = fopen(file_path.c_str(), "w");
+
+    // Rais error if we can't open file
     if (received_file == NULL) {
-        fprintf(stderr, "Failed to open file foo --> %s\n", strerror(errno));
-
-        exit(EXIT_FAILURE);
+        raiseError("Failed to open file!");
     }
 
-    int remain_data = file_size;
-    while (((len = recv(*sock, buffer, BUFSIZ, 0)) > 0) && (remain_data > 0)) {
-        fwrite(buffer, sizeof(char), len, received_file);
-        remain_data -= len;
-        fprintf(stdout, "Receive %d bytes and we hope :- %d bytes\n", len, remain_data);
-    }
+    // Write buffer to file
+    fwrite(buffer, sizeof(char), n, received_file);
+
+    // Close file and socket
     fclose(received_file);
-
+    close(*sock);
 }
 
 /**
@@ -189,16 +199,14 @@ void receive_data(int *sock) {
  * @return
  */
 string receive_response(int *sock) {
-    int size = 1024;
-    char buffer[size];
+    char buffer[BUFSIZ];
     string reply;
-    int n = recv(*sock, buffer, sizeof(buffer), 0);
+    int n = recv(*sock, &buffer[0], BUFSIZ, 0);
     if (n < 0) {
         raiseError("Data receive failed!");
     }
     buffer[n] = '\0';
-    reply = buffer;
-    return reply;
+    return buffer;
 }
 
 /**

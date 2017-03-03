@@ -25,6 +25,8 @@ arpa/inet.h
 -
 stdlib.h
 -
+stdio.h
+-
 unistd.h
 -
 netdb.h
@@ -34,6 +36,8 @@ unistd.h
 fstream
 -
 cassert
+-
+experimental/filesystem
 -
 
 /home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/./lib/socket/ServerSocket.h
@@ -77,6 +81,8 @@ arpa/inet.h
 -
 stdlib.h
 -
+stdio.h
+-
 unistd.h
 -
 netdb.h
@@ -86,6 +92,8 @@ unistd.h
 fstream
 -
 cassert
+-
+experimental/filesystem
 -
 
 /home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ServerSocket.cpp
