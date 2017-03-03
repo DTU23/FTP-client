@@ -39,7 +39,6 @@ public:
     bool open_connection(int *sock);
     bool send_cmd(string message);
     bool send_cmd(int *sock, string message);
-    void receive_file(int *sock, string file_path);
     string receive_response();
     string receive_response(int *sock);
 };
