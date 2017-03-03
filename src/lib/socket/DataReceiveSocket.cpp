@@ -2,6 +2,7 @@
 using namespace std;
 /**
  * Constructor
+ * @param server_ip
  * @param port
  */
 DataReceiveSocket::DataReceiveSocket(string server_ip, uint16_t port) {
