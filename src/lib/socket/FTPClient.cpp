@@ -3,9 +3,14 @@
 /**
  * Constructor method
  */
-FTPClient::FTPClient() {
-
+FTPClient::FTPClient(string server_ip, uint16_t port, string user, string password, bool passive_mode) {
+    this->server_ip = server_ip;
+    this->port = port;
+    this->user = user;
+    this->password = password;
+    this->passive_mode = passive_mode;
 }
+
 /**
      * Method will take a string-response for passive-mode-entry and split it out into segments and calculate port-number
      * @param msg_227
@@ -31,14 +36,7 @@ uint16_t FTPClient::get_port_number(string msg_227) {
     return atoi(seglist[4].c_str()) * 256 + atoi(seglist[5].c_str());
 }
 
-/**
- * Method will print an error message and exit program
- * @param message
- */
-void FTPClient::raiseError(string message) {
-    print_message(message);
-    exit(1);
-}
+
 /**
  * Method for creating a socket from socket pointer
  * @param sock
@@ -51,6 +49,11 @@ bool FTPClient::create_socket(int *sock) {
     }
     return true;
 }
+// Overload method
+bool FTPClient::create_socket() {
+    FTPClient::create_socket(&this->sock);
+}
+
 /**
  * Method for opening a socket-connection to remote server
  * @param sock
@@ -58,14 +61,18 @@ bool FTPClient::create_socket(int *sock) {
  * @param ip
  * @return boolean for success or error
  */
-bool FTPClient::open_connection(int *sock, uint16_t port, string ip) {
-    server.sin_family = AF_INET;
-    server.sin_port = htons(port);
-    server.sin_addr.s_addr = inet_addr(&ip[0]);
-    if (connect(*sock, (struct sockaddr *) &server, sizeof(server)) < 0) {
+bool FTPClient::open_connection(int *sock) {
+    this->server.sin_family = AF_INET;
+    this->server.sin_port = htons(port);
+    this->server.sin_addr.s_addr = inet_addr(&this->server_ip[0]);
+    if (connect(*sock, (struct sockaddr *) &this->server, sizeof(this->server)) < 0) {
         return false;
     }
     return true;
+}
+// Overload method
+bool FTPClient::open_connection() {
+    return FTPClient::open_connection(&this->sock);
 }
 
 /**
@@ -78,35 +85,12 @@ bool FTPClient::send_cmd(int *sock, string message) {
     if (send(*sock, message.c_str(), strlen(message.c_str()), 0) < 0) {
         return false;
     }
-    print_message(message);
+    Helper::print_message(message);
     return true;
 }
-
-/**
- * Method for receiving file-data
- * @param sock
- */
-void FTPClient::receive_file(int *sock, string file_path) {
-    char buffer[BUFSIZ];
-    FILE *received_file;
-
-    /* Store filesize in variable */
-    size_t n = recv(*sock, buffer, BUFSIZ, 0);
-
-    // Open file for writing
-    received_file = fopen(file_path.c_str(), "w");
-
-    // Rais error if we can't open file
-    if (received_file == NULL) {
-        raiseError("Failed to open file!");
-    }
-
-    // Write buffer to file
-    fwrite(buffer, sizeof(char), n, received_file);
-
-    // Close file and socket
-    fclose(received_file);
-    close(*sock);
+// Overload method
+bool FTPClient::send_cmd(string message) {
+    return FTPClient::send_cmd(&this->sock, message);
 }
 
 /**
@@ -119,16 +103,12 @@ string FTPClient::receive_response(int *sock) {
     string reply;
     int n = recv(*sock, &buffer[0], BUFSIZ, 0);
     if (n < 0) {
-        raiseError("Data receive failed!");
+        Helper::raiseError("Data receive failed!");
     }
     buffer[n] = '\0';
     return buffer;
 }
-
-/**
- * General method for printing messages to the console
- * @param message
- */
-void FTPClient::print_message(string message) {
-    cout << message << endl;
+// Overload method
+string FTPClient::receive_response() {
+    return FTPClient::receive_response(&this->sock);
 }

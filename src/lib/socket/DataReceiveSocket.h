@@ -1,6 +1,6 @@
-#ifndef CLIENTSOCKET_H
-#define CLIENTSOCKET_H
-//System Imports
+#ifndef DATARECEIVESOCKET_H
+#define DATARECEIVESOCKET_H
+// System Imports
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -20,28 +20,22 @@
 
 using namespace std;
 
-class FTPClient
-{
+class DataReceiveSocket {
 private:
     string server_ip;
     uint16_t port;
-    string user;
-    string password;
-    bool passive_mode;
     struct sockaddr_in server;
     int sock;
+    string home_path;
 public:
-    FTPClient(string server_ip, uint16_t port, string user, string password, bool passive_mode);
-    uint16_t get_port_number(string msg_227);
+    DataReceiveSocket(string server_ip, uint16_t port);
     bool create_socket();
     bool create_socket(int *sock);
     bool open_connection();
     bool open_connection(int *sock);
-    bool send_cmd(string message);
-    bool send_cmd(int *sock, string message);
-    void receive_file(int *sock, string file_path);
-    string receive_response();
-    string receive_response(int *sock);
+    void receive_file(string file_name);
+    void receive_file(int *sock, string file_name);
 };
 
-#endif // CLIENTSOCKET_H
+
+#endif //DATARECEIVESOCKET_H

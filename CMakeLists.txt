@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(lecture2)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES src/main.cpp src/lib/socket/ServerSocket.cpp src/lib/socket/ServerSocket.h src/lib/socket/FTPClient.cpp src/lib/socket/FTPClient.h)
+set(SOURCE_FILES src/main.cpp src/lib/socket/FTPClient.cpp src/lib/socket/FTPClient.h src/lib/socket/DataReceiveSocket.cpp src/lib/socket/DataReceiveSocket.h src/lib/Helper.cpp src/lib/Helper.h)
 add_executable(lecture2 ${SOURCE_FILES})
