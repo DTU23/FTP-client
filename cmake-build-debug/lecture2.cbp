@@ -84,10 +84,10 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.cpp">
+		<Unit filename="/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/FTPClient.cpp">
 			<Option target="lecture2"/>
 		</Unit>
-		<Unit filename="/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.h">
+		<Unit filename="/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/FTPClient.h">
 			<Option target="lecture2"/>
 		</Unit>
 		<Unit filename="/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ServerSocket.cpp">

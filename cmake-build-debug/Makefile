@@ -123,32 +123,32 @@ lecture2/fast:
 	$(MAKE) -f CMakeFiles/lecture2.dir/build.make CMakeFiles/lecture2.dir/build
 .PHONY : lecture2/fast
 
-src/lib/socket/ClientSocket.o: src/lib/socket/ClientSocket.cpp.o
+src/lib/socket/FTPClient.o: src/lib/socket/FTPClient.cpp.o
 
-.PHONY : src/lib/socket/ClientSocket.o
+.PHONY : src/lib/socket/FTPClient.o
 
 # target to build an object file
-src/lib/socket/ClientSocket.cpp.o:
-	$(MAKE) -f CMakeFiles/lecture2.dir/build.make CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o
-.PHONY : src/lib/socket/ClientSocket.cpp.o
+src/lib/socket/FTPClient.cpp.o:
+	$(MAKE) -f CMakeFiles/lecture2.dir/build.make CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o
+.PHONY : src/lib/socket/FTPClient.cpp.o
 
-src/lib/socket/ClientSocket.i: src/lib/socket/ClientSocket.cpp.i
+src/lib/socket/FTPClient.i: src/lib/socket/FTPClient.cpp.i
 
-.PHONY : src/lib/socket/ClientSocket.i
+.PHONY : src/lib/socket/FTPClient.i
 
 # target to preprocess a source file
-src/lib/socket/ClientSocket.cpp.i:
-	$(MAKE) -f CMakeFiles/lecture2.dir/build.make CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.i
-.PHONY : src/lib/socket/ClientSocket.cpp.i
+src/lib/socket/FTPClient.cpp.i:
+	$(MAKE) -f CMakeFiles/lecture2.dir/build.make CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.i
+.PHONY : src/lib/socket/FTPClient.cpp.i
 
-src/lib/socket/ClientSocket.s: src/lib/socket/ClientSocket.cpp.s
+src/lib/socket/FTPClient.s: src/lib/socket/FTPClient.cpp.s
 
-.PHONY : src/lib/socket/ClientSocket.s
+.PHONY : src/lib/socket/FTPClient.s
 
 # target to generate assembly for a file
-src/lib/socket/ClientSocket.cpp.s:
-	$(MAKE) -f CMakeFiles/lecture2.dir/build.make CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.s
-.PHONY : src/lib/socket/ClientSocket.cpp.s
+src/lib/socket/FTPClient.cpp.s:
+	$(MAKE) -f CMakeFiles/lecture2.dir/build.make CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.s
+.PHONY : src/lib/socket/FTPClient.cpp.s
 
 src/lib/socket/ServerSocket.o: src/lib/socket/ServerSocket.cpp.o
 
@@ -213,9 +213,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... lecture2"
-	@echo "... src/lib/socket/ClientSocket.o"
-	@echo "... src/lib/socket/ClientSocket.i"
-	@echo "... src/lib/socket/ClientSocket.s"
+	@echo "... src/lib/socket/FTPClient.o"
+	@echo "... src/lib/socket/FTPClient.i"
+	@echo "... src/lib/socket/FTPClient.s"
 	@echo "... src/lib/socket/ServerSocket.o"
 	@echo "... src/lib/socket/ServerSocket.i"
 	@echo "... src/lib/socket/ServerSocket.s"

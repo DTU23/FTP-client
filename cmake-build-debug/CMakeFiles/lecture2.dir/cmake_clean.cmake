@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/lecture2.dir/src/main.cpp.o"
   "CMakeFiles/lecture2.dir/src/lib/socket/ServerSocket.cpp.o"
-  "CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o"
+  "CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o"
   "lecture2.pdb"
   "lecture2"
 )

@@ -1,4 +1,4 @@
-#include "ClientSocket.h"
+#include "FTPClient.h"
 
 /**
  * Constructor method

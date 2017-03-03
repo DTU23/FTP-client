@@ -1,4 +1,4 @@
-#include "./lib/socket/ClientSocket.h"
+#include "lib/socket/FTPClient.h"
 
 int main( int argc, char** argv) {
     FTPClient ftpClient;

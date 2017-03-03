@@ -6,45 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/./lib/socket/ClientSocket.h
-iostream
--
-sstream
--
-vector
--
-string.h
--
-sys/types.h
--
-sys/socket.h
--
-netinet/in.h
--
-arpa/inet.h
--
-stdlib.h
--
-stdio.h
--
-unistd.h
--
-netdb.h
--
-unistd.h
--
-fstream
--
-cassert
--
-experimental/filesystem
--
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/FTPClient.cpp
+FTPClient.h
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/FTPClient.h
 
-/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.cpp
-ClientSocket.h
-/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.h
-
-/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.h
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/FTPClient.h
 iostream
 -
 sstream
@@ -101,6 +67,6 @@ unistd.h
 -
 
 /home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/main.cpp
-./lib/socket/ClientSocket.h
-/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/./lib/socket/ClientSocket.h
+lib/socket/FTPClient.h
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/FTPClient.h
 

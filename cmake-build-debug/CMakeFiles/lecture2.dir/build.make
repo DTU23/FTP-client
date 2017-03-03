@@ -105,42 +105,42 @@ CMakeFiles/lecture2.dir/src/lib/socket/ServerSocket.cpp.o.provides: CMakeFiles/l
 CMakeFiles/lecture2.dir/src/lib/socket/ServerSocket.cpp.o.provides.build: CMakeFiles/lecture2.dir/src/lib/socket/ServerSocket.cpp.o
 
 
-CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o: CMakeFiles/lecture2.dir/flags.make
-CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o: ../src/lib/socket/ClientSocket.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o -c "/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.cpp"
+CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o: CMakeFiles/lecture2.dir/flags.make
+CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o: ../src/lib/socket/FTPClient.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o -c "/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/FTPClient.cpp"
 
-CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.cpp" > CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.i
+CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/FTPClient.cpp" > CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.i
 
-CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.cpp" -o CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.s
+CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/FTPClient.cpp" -o CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.s
 
-CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o.requires:
+CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o.requires:
 
-.PHONY : CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o.requires
+.PHONY : CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o.requires
 
-CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o.provides: CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o.requires
-	$(MAKE) -f CMakeFiles/lecture2.dir/build.make CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o.provides.build
-.PHONY : CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o.provides
+CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o.provides: CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o.requires
+	$(MAKE) -f CMakeFiles/lecture2.dir/build.make CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o.provides.build
+.PHONY : CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o.provides
 
-CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o.provides.build: CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o
+CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o.provides.build: CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o
 
 
 # Object files for target lecture2
 lecture2_OBJECTS = \
 "CMakeFiles/lecture2.dir/src/main.cpp.o" \
 "CMakeFiles/lecture2.dir/src/lib/socket/ServerSocket.cpp.o" \
-"CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o"
+"CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o"
 
 # External object files for target lecture2
 lecture2_EXTERNAL_OBJECTS =
 
 lecture2: CMakeFiles/lecture2.dir/src/main.cpp.o
 lecture2: CMakeFiles/lecture2.dir/src/lib/socket/ServerSocket.cpp.o
-lecture2: CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o
+lecture2: CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o
 lecture2: CMakeFiles/lecture2.dir/build.make
 lecture2: CMakeFiles/lecture2.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable lecture2"
@@ -153,7 +153,7 @@ CMakeFiles/lecture2.dir/build: lecture2
 
 CMakeFiles/lecture2.dir/requires: CMakeFiles/lecture2.dir/src/main.cpp.o.requires
 CMakeFiles/lecture2.dir/requires: CMakeFiles/lecture2.dir/src/lib/socket/ServerSocket.cpp.o.requires
-CMakeFiles/lecture2.dir/requires: CMakeFiles/lecture2.dir/src/lib/socket/ClientSocket.cpp.o.requires
+CMakeFiles/lecture2.dir/requires: CMakeFiles/lecture2.dir/src/lib/socket/FTPClient.cpp.o.requires
 
 .PHONY : CMakeFiles/lecture2.dir/requires
 
