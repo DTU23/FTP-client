@@ -1,0 +1,118 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/./lib/socket/ClientSocket.h
+iostream
+-
+sstream
+-
+vector
+-
+string.h
+-
+sys/types.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+arpa/inet.h
+-
+stdlib.h
+-
+unistd.h
+-
+netdb.h
+-
+unistd.h
+-
+fstream
+-
+cassert
+-
+
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/./lib/socket/ServerSocket.h
+iostream
+-
+string.h
+-
+sys/types.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+arpa/inet.h
+-
+stdlib.h
+-
+unistd.h
+-
+
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.cpp
+ClientSocket.h
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.h
+
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ClientSocket.h
+iostream
+-
+sstream
+-
+vector
+-
+string.h
+-
+sys/types.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+arpa/inet.h
+-
+stdlib.h
+-
+unistd.h
+-
+netdb.h
+-
+unistd.h
+-
+fstream
+-
+cassert
+-
+
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ServerSocket.cpp
+ServerSocket.h
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ServerSocket.h
+
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/lib/socket/ServerSocket.h
+iostream
+-
+string.h
+-
+sys/types.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+arpa/inet.h
+-
+stdlib.h
+-
+unistd.h
+-
+
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/main.cpp
+./lib/socket/ClientSocket.h
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/./lib/socket/ClientSocket.h
+./lib/socket/ServerSocket.h
+/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/src/./lib/socket/ServerSocket.h
+

@@ -1,0 +1,4 @@
+/home/viktor/Applications/apps/CLion/ch-0/163.13906.4/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/viktor/Documents/DTU/2. Semester/62576 - Netværkspraktik/lecture2/cmake-build-debug
