@@ -36,22 +36,21 @@ int main( int argc, char** argv) {
     if (!ftpClient.send_cmd("PASS pass\r\n")) {
         Helper::raiseError("Data send error!");
     }
-    /**
-     * Todo: consider why we have to do two receives for it to work.
-     */
     Helper::print_message(ftpClient.receive_response());
+
     // Enter passive mod
     if (!ftpClient.send_cmd("PASV\r\n")) {
         Helper::raiseError("Data send error!");
     }
-    // Translate passive mode response to socket port #
+
+    // Translate passive mode response to socket port-number
     string response = ftpClient.receive_response();
     Helper::print_message(response);
     uint16_t port = ftpClient.get_port_number(response);
     cout << "data-transfer port is: " << port << endl;
 
     /**
-     * Open new socket for FTP
+     * Open new DataReceiveSocket for FTP file transfer
      */
     DataReceiveSocket dataReceiveSocket("130.226.195.126", port);
     // create new socket
@@ -60,12 +59,12 @@ int main( int argc, char** argv) {
     }
     Helper::print_message("FTP socket created");
 
-    // open connection
+    // open socket connection
     if (!dataReceiveSocket.open_connection()) {
         Helper::raiseError("Couldn't open connection!");
     }
 
-    // Send retrieve command
+    // Send retrieve command on FTPClient
     if (!ftpClient.send_cmd("RETR file.txt\r\n")) {
         Helper::raiseError("Error receiving file.txt");
     }
