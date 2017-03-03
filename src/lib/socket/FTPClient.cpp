@@ -98,7 +98,7 @@ bool FTPClient::send_cmd(string message) {
  * @param sock
  * @return
  */
-string FTPClient::receive_response(int *sock) {
+string FTPClient::get_response(int *sock) {
     char buffer[BUFSIZ];
     string reply;
     int n = recv(*sock, &buffer[0], BUFSIZ, 0);
@@ -109,6 +109,6 @@ string FTPClient::receive_response(int *sock) {
     return buffer;
 }
 // Overload method
-string FTPClient::receive_response() {
-    return FTPClient::receive_response(&this->sock);
+string FTPClient::get_response() {
+    return FTPClient::get_response(&this->sock);
 }

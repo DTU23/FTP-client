@@ -22,7 +22,7 @@ int main( int argc, char** argv) {
     if (!ftpClient.send_cmd("hello\r\n")) {
         Helper::raiseError("Data send error!");
     }
-    Helper::print_message(ftpClient.receive_response());
+    Helper::print_message(ftpClient.get_response());
 
 
     // Set user anonymous
@@ -30,15 +30,15 @@ int main( int argc, char** argv) {
         Helper::raiseError("Data send error!");
     }
     // Get response message for USER command
-    Helper::print_message(ftpClient.receive_response());
+    Helper::print_message(ftpClient.get_response());
     // Get 2nd response message asking for password
-    Helper::print_message(ftpClient.receive_response());
+    Helper::print_message(ftpClient.get_response());
 
     // Send password (can be anything)
     if (!ftpClient.send_cmd("PASS pass\r\n")) {
         Helper::raiseError("Data send error!");
     }
-    Helper::print_message(ftpClient.receive_response());
+    Helper::print_message(ftpClient.get_response());
 
     // Enter passive mod
     if (!ftpClient.send_cmd("PASV\r\n")) {
@@ -46,7 +46,7 @@ int main( int argc, char** argv) {
     }
 
     // Translate passive mode response to socket port-number
-    string response = ftpClient.receive_response();
+    string response = ftpClient.get_response();
     Helper::print_message(response);
     uint16_t port = ftpClient.get_port_number(response);
     cout << "data-transfer port is: " << port << endl;

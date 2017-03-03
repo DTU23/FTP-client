@@ -39,8 +39,8 @@ public:
     bool open_connection(int *sock);
     bool send_cmd(string message);
     bool send_cmd(int *sock, string message);
-    string receive_response();
-    string receive_response(int *sock);
+    string get_response();
+    string get_response(int *sock);
 };
 
 #endif // CLIENTSOCKET_H
