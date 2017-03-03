@@ -114,9 +114,12 @@ void DataSocket::send_file(int *sock, string file_name, string upload_path) {
 
     // read content of infile
     infile.read (buffer,size);
-
     write(*sock,buffer, strlen(buffer));
 
+    int n = send(*sock, &buffer[0], size, 0);
+    if (n < 1){
+        Helper::raiseError("File not uploaded!");
+    }
     close(*sock);
 }
 // Overload method
