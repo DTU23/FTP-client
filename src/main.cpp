@@ -1,5 +1,5 @@
-#include "lib/socket/FTPClient.h"
-#include "lib/socket/DataSocket.h"
+#include "modules/FTPClient.h"
+#include "modules/DataSocket.h"
 
 #define SERVER_IP "130.226.195.126"
 #define FTP_PORT 21
