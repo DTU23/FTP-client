@@ -1,11 +1,11 @@
-#include "DataReceiveSocket.h"
+#include "DataSocket.h"
 using namespace std;
 /**
  * Constructor
  * @param server_ip
  * @param port
  */
-DataReceiveSocket::DataReceiveSocket(string server_ip, uint16_t port) {
+DataSocket::DataSocket(string server_ip, uint16_t port) {
     this->server_ip = server_ip;
     this->port = port;
     // Get environment variable for HOME-folder-path based off Operating system
@@ -22,7 +22,7 @@ DataReceiveSocket::DataReceiveSocket(string server_ip, uint16_t port) {
  * @param sock
  * @return boolean for success or error
  */
-bool DataReceiveSocket::create_socket(int *sock) {
+bool DataSocket::create_socket(int *sock) {
     *sock = socket(AF_INET, SOCK_STREAM, 0);
     if (*sock == -1) {
         return false;
@@ -30,8 +30,8 @@ bool DataReceiveSocket::create_socket(int *sock) {
     return true;
 }
 // Overload method
-bool DataReceiveSocket::create_socket() {
-    DataReceiveSocket::create_socket(&this->sock);
+bool DataSocket::create_socket() {
+    DataSocket::create_socket(&this->sock);
 }
 
 /**
@@ -41,7 +41,7 @@ bool DataReceiveSocket::create_socket() {
  * @param ip
  * @return boolean for success or error
  */
-bool DataReceiveSocket::open_connection(int *sock) {
+bool DataSocket::open_connection(int *sock) {
     server.sin_family = AF_INET;
     server.sin_port = htons(port);
     server.sin_addr.s_addr = inet_addr(&this->server_ip[0]);
@@ -51,15 +51,15 @@ bool DataReceiveSocket::open_connection(int *sock) {
     return true;
 }
 // Overload method
-bool DataReceiveSocket::open_connection() {
-    return DataReceiveSocket::open_connection(&this->sock);
+bool DataSocket::open_connection() {
+    return DataSocket::open_connection(&this->sock);
 }
 
 /**
  * Method for receiving file-data
  * @param sock
  */
-void DataReceiveSocket::receive_file(int *sock, string file_name) {
+void DataSocket::receive_file(int *sock, string file_name) {
     char buffer[BUFSIZ];
     FILE *received_file;
 
@@ -83,6 +83,47 @@ void DataReceiveSocket::receive_file(int *sock, string file_name) {
     close(*sock);
 }
 // Overload method
-void DataReceiveSocket::receive_file(string file_name) {
-    DataReceiveSocket::receive_file(&this->sock, file_name);
+void DataSocket::receive_file(string file_name) {
+    DataSocket::receive_file(&this->sock, file_name);
+}
+
+/**
+ * Method for sending file
+ * @param sock pointer to an open socket
+ * @param file_name name of file to be uplaoded
+ * @param upload_path path where file should be uploaded
+ */
+void DataSocket::send_file(int *sock, string file_name, string upload_path) {
+    char buffer[BUFSIZ];
+    FILE *send_file;
+
+    // Open file for writing
+    string file = this->home_path+"/Desktop/"+file_name;
+
+    // Raise error if we can't open file
+    if (send_file == NULL) {
+        Helper::raiseError("Failed to open file!");
+    }
+
+    ifstream infile (file,ifstream::binary);
+
+    // get size of file
+    infile.seekg (0,infile.end);
+    long size = infile.tellg();
+    infile.seekg (0);
+
+    // read content of infile
+    infile.read (buffer,size);
+
+    write(*sock,buffer, strlen(buffer));
+
+    close(*sock);
+}
+// Overload method
+void DataSocket::send_file(string file_name, string upload_path) {
+    DataSocket::send_file(&this->sock, file_name, upload_path);
+}
+// Overload method
+void DataSocket::send_file(string file_name) {
+    DataSocket::send_file(file_name, "/");
 }

@@ -1,9 +1,11 @@
 #include "lib/socket/FTPClient.h"
-#include "lib/socket/DataReceiveSocket.h"
-#include "lib/Helper.h"
+#include "lib/socket/DataSocket.h"
+
+#define SERVER_IP "130.226.195.126"
+#define FTP_PORT 21
 
 int main( int argc, char** argv) {
-    FTPClient ftpClient("130.226.195.126", 21, "anonymous", "", true);
+    FTPClient ftpClient(SERVER_IP, FTP_PORT, "anonymous", "", true);
     // Create socket
     if (!ftpClient.create_socket()) {
         Helper::raiseError("Couldn't create socket!");
@@ -50,17 +52,17 @@ int main( int argc, char** argv) {
     cout << "data-transfer port is: " << port << endl;
 
     /**
-     * Open new DataReceiveSocket for FTP file transfer
+     * Open new DataSocket for FTP file transfer
      */
-    DataReceiveSocket dataReceiveSocket("130.226.195.126", port);
+    DataSocket DataSocket(SERVER_IP, port);
     // create new socket
-    if (!dataReceiveSocket.create_socket()) {
-        Helper::raiseError("Couldn't create ftp socket!");
+    if (!DataSocket.create_socket()) {
+        Helper::raiseError("Couldn't create Data transfer socket!");
     }
-    Helper::print_message("FTP socket created");
+    Helper::print_message("Data transfer socket created");
 
     // open socket connection
-    if (!dataReceiveSocket.open_connection()) {
+    if (!DataSocket.open_connection()) {
         Helper::raiseError("Couldn't open connection!");
     }
 
@@ -69,7 +71,14 @@ int main( int argc, char** argv) {
         Helper::raiseError("Error receiving file.txt");
     }
     // Receive file from socket.
-    dataReceiveSocket.receive_file("file.txt");
+    DataSocket.receive_file("file.txt");
     Helper::print_message("File retrieved");
+
+    // Send store command on FTPClient
+    if (!ftpClient.send_cmd("STOR upload.txt\r\n")) {
+        Helper::raiseError("Error storing file.txt");
+    }
+    DataSocket.send_file("send.txt");
+    Helper::print_message("File send to FTP server!");
     return 0;
 }

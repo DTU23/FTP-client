@@ -1,5 +1,5 @@
-#ifndef DATARECEIVESOCKET_H
-#define DATARECEIVESOCKET_H
+#ifndef DataSocket_H
+#define DataSocket_H
 // System Imports
 #include <iostream>
 #include <sstream>
@@ -20,7 +20,7 @@
 
 using namespace std;
 
-class DataReceiveSocket {
+class DataSocket {
 private:
     string server_ip;
     uint16_t port;
@@ -28,14 +28,17 @@ private:
     int sock;
     string home_path;
 public:
-    DataReceiveSocket(string server_ip, uint16_t port);
+    DataSocket(string server_ip, uint16_t port);
     bool create_socket();
     bool create_socket(int *sock);
     bool open_connection();
     bool open_connection(int *sock);
     void receive_file(string file_name);
     void receive_file(int *sock, string file_name);
+    void send_file(string file_name);
+    void send_file(string file_name, string upload_path);
+    void send_file(int *sock, string file_name, string upload_path);
 };
 
 
-#endif //DATARECEIVESOCKET_H
+#endif //DataSocket_H
