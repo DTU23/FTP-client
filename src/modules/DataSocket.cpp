@@ -9,6 +9,10 @@ using namespace std;
 DataSocket::DataSocket(string server_ip, uint16_t port) {
     this->server_ip = server_ip;
     this->port = port;
+    this->sock = 0;
+    this->server.sin_family = AF_INET;
+    this->server.sin_port = htons(this->port);
+    this->server.sin_addr.s_addr = inet_addr(&this->server_ip[0]);
     // Get environment variable for HOME-folder-path based off Operating system
     string home_path = "";
     #ifdef _WIN32
@@ -16,17 +20,14 @@ DataSocket::DataSocket(string server_ip, uint16_t port) {
     #else
         this->home_path = getenv("HOME");
     #endif
-    // create new socket
-    if (!this->create_socket()) {
-        Helper::raiseError("Couldn't create Data transfer socket!");
+    if(this->create_socket() < 0){
+        Helper::raiseError("Erorr creating socket");
     }
-    Helper::print_message("Data transfer socket created");
-
-    // open socket connection
-    if (!this->open_connection()) {
-        Helper::raiseError("Couldn't open connection!");
+    Helper::print_message("Data socket created!");
+    if(this->open_connection() < 0){
+        Helper::raiseError("Error opening connection!");
     }
-
+    Helper::print_message("Data socket connection opened!");
 }
 /**
  * Destructor
@@ -51,7 +52,7 @@ bool DataSocket::create_socket(int *sock) {
 }
 // Overload method
 bool DataSocket::create_socket() {
-    DataSocket::create_socket(&this->sock);
+    return DataSocket::create_socket(&this->sock);
 }
 
 /**
@@ -62,10 +63,7 @@ bool DataSocket::create_socket() {
  * @return boolean for success or error
  */
 bool DataSocket::open_connection(int *sock) {
-    server.sin_family = AF_INET;
-    server.sin_port = htons(port);
-    server.sin_addr.s_addr = inet_addr(&this->server_ip[0]);
-    if (connect(*sock, (struct sockaddr *) &server, sizeof(server)) < 0) {
+    if (connect(*sock, (struct sockaddr *) &this->server, sizeof(server)) < 0) {
         return false;
     }
     return true;
@@ -90,15 +88,14 @@ void DataSocket::receive_file(int *sock, string file_name) {
     if (received_file == NULL) {
         Helper::raiseError("Failed to open file!");
     }
-    /* Store filesize in variable */
-    int chunk = recv(*sock, buffer, BUFFER_SIZE, MSG_PEEK);
+    // Store first chunk of file
+    int chunk = recv(*sock, buffer, BUFFER_SIZE, 0);
 
     // Write large files in chunks
     if(chunk >= BUFFER_SIZE){
-        Helper::print_message("Too Large!");
         do{
-            chunk = recv(*sock, buffer, chunk, 0);
             fwrite(buffer, sizeof(char), chunk, received_file);
+            chunk = recv(*sock, buffer, chunk, 0); // Retrieve next chunk of file
         }while (chunk > 0);
     // Smaller files can be written directly
     }else{
@@ -107,6 +104,7 @@ void DataSocket::receive_file(int *sock, string file_name) {
     }
     // Close file
     fclose(received_file);
+
 }
 // Overload method
 void DataSocket::receive_file(string file_name) {
@@ -161,5 +159,13 @@ void DataSocket::send_file(string file_name) {
  * @param sock
  */
 void DataSocket::close_socket(int *sock) {
-    close(*sock);
+    if(close(*sock) < 0){
+        Helper::raiseError("Could not close data socket!");
+    }
+    Helper::print_message("Data socket closed!");
+}
+// Overload method
+void DataSocket::close_socket() {
+    Helper::print_message("Closing data socket...");
+    DataSocket::close_socket(&this->sock);
 }

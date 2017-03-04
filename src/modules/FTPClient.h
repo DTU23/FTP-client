@@ -27,23 +27,23 @@ private:
     uint16_t port, data_port;
     string user;
     string password;
-    bool passive_mode;
     struct sockaddr_in server;
     int sock;
-public:
-    FTPClient(string server_ip, uint16_t port, string user, string password, bool passive_mode);
-    ~FTPClient(void);
-    uint16_t get_data_port_number();
-    void set_data_port_number(string msg_227);
-    bool create_socket();
     bool create_socket(int *sock);
-    bool open_connection();
     bool open_connection(int *sock);
-    bool send_cmd(string message);
     bool send_cmd(int *sock, string message);
-    string get_response();
     string get_response(int *sock);
     void close_socket(int *sock);
+    void set_data_port_number(string msg_227);
+public:
+    FTPClient(string server_ip, uint16_t port, string user, string password);
+    ~FTPClient(void);
+    uint16_t get_data_port_number();
+    bool create_socket();
+    bool open_connection();
+    bool send_cmd(string message);
+    bool enter_passive_mode();
+    string get_response();
 };
 
 #endif // CLIENTSOCKET_H

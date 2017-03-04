@@ -3,12 +3,11 @@
 /**
  * Constructor method
  */
-FTPClient::FTPClient(string server_ip, uint16_t port, string user, string password, bool passive_mode) {
+FTPClient::FTPClient(string server_ip, uint16_t port, string user, string password) {
     this->server_ip = server_ip;
     this->port = port;
     this->user = user;
     this->password = password;
-    this->passive_mode = passive_mode;
     this->server.sin_family = AF_INET;
     this->server.sin_port = htons(port);
     this->server.sin_addr.s_addr = inet_addr(&this->server_ip[0]);
@@ -48,15 +47,6 @@ FTPClient::FTPClient(string server_ip, uint16_t port, string user, string passwo
         Helper::raiseError("Data send error!");
     }
     Helper::print_message(this->get_response());
-
-    // Enter passive mod
-    if (this->passive_mode && !this->send_cmd("PASV\r\n")) {
-        Helper::raiseError("Unable to enter passive mode!");
-    }
-    // Translate passive mode response to socket port-number
-    string response = this->get_response();
-    Helper::print_message(response);
-    this->set_data_port_number(response);
 }
 
 
@@ -177,6 +167,22 @@ string FTPClient::get_response(int *sock) {
 // Overload method
 string FTPClient::get_response() {
     return FTPClient::get_response(&this->sock);
+}
+
+/**
+ * Method for entering passive mode
+ * @return
+ */
+bool FTPClient::enter_passive_mode(){
+    // Enter passive mod
+    if (!this->send_cmd("PASV\r\n")) {
+        Helper::raiseError("Unable to enter passive mode!");
+    }
+    // Translate passive mode response to socket port-number
+    string response = this->get_response();
+    Helper::print_message(response);
+    this->set_data_port_number(response);
+    return true;
 }
 
 /**

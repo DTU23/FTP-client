@@ -27,19 +27,20 @@ private:
     struct sockaddr_in server;
     int sock;
     string home_path;
+    bool create_socket(int *sock);
+    bool open_connection(int *sock);
+    void receive_file(int *sock, string file_name);
+    void send_file(int *sock, string file_name, string upload_path);
+    void close_socket(int *sock);
 public:
     DataSocket(string server_ip, uint16_t port);
     ~DataSocket(void);
     bool create_socket();
-    bool create_socket(int *sock);
     bool open_connection();
-    bool open_connection(int *sock);
     void receive_file(string file_name);
-    void receive_file(int *sock, string file_name);
     void send_file(string file_name);
     void send_file(string file_name, string upload_path);
-    void send_file(int *sock, string file_name, string upload_path);
-    void close_socket(int *sock);
+    void close_socket();
 };
 
 
