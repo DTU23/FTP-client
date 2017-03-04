@@ -1,4 +1,5 @@
 #include "DataSocket.h"
+#define BUFFER_SIZE 1024
 using namespace std;
 /**
  * Constructor
@@ -79,12 +80,8 @@ bool DataSocket::open_connection() {
  * @param sock
  */
 void DataSocket::receive_file(int *sock, string file_name) {
-    char buffer[BUFSIZ];
+    char buffer[BUFFER_SIZE];
     FILE *received_file;
-
-    /* Store filesize in variable */
-    size_t n = recv(*sock, buffer, BUFSIZ, 0);
-
     // Open file for writing
     string file = this->home_path+"/Desktop/"+file_name;
     received_file = fopen(file.c_str(), "w");
@@ -93,9 +90,19 @@ void DataSocket::receive_file(int *sock, string file_name) {
     if (received_file == NULL) {
         Helper::raiseError("Failed to open file!");
     }
+    /* Store filesize in variable */
+    int chunk = recv(*sock, buffer, BUFFER_SIZE, MSG_PEEK);
 
-    // Write buffer to file
-    fwrite(buffer, sizeof(char), n, received_file);
+    if(chunk >= BUFFER_SIZE){
+        Helper::print_message("Too Large!");
+        do{
+            chunk = recv(*sock, buffer, chunk, 0);
+            fwrite(buffer, sizeof(char), chunk, received_file);
+        }while (chunk > 0);
+    }else{
+        // Write buffer to file
+        fwrite(buffer, sizeof(char), chunk, received_file);
+    }
 
     // Close file and socket
     fclose(received_file);
@@ -112,7 +119,7 @@ void DataSocket::receive_file(string file_name) {
  * @param upload_path path where file should be uploaded
  */
 void DataSocket::send_file(int *sock, string file_name, string upload_path) {
-    char buffer[BUFSIZ];
+    char buffer[BUFFER_SIZE];
     FILE *send_file;
 
     // Open file for writing
