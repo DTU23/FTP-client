@@ -1,7 +1,3 @@
-//
-// Created by viktor on 04-03-17.
-//
-
 #ifndef FILEPRINTER_H
 #define FILEPRINTER_H
 

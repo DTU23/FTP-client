@@ -34,8 +34,7 @@ DataSocket::DataSocket(string server_ip, uint16_t port) {
  */
 // Overload method
 DataSocket::~DataSocket(void) {
-    Helper::print_message("Closing Data Socket!");
-    DataSocket::close_socket(&this->sock);
+    DataSocket::close_socket();
 }
 
 /**

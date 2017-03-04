@@ -16,13 +16,13 @@ FTPClient::FTPClient(string server_ip, uint16_t port, string user, string passwo
     if (!this->create_socket()) {
         Helper::raiseError("Couldn't create socket!");
     }
-    Helper::print_message("Socket Created!");
+    Helper::print_message("FTP Socket Created!");
 
     // Open connection
     if (!this->open_connection()) {
         Helper::raiseError("Couldn't open connection!");
     }
-    Helper::print_message("Connection successful!");
+    Helper::print_message("FTP Connection successful!");
 
     // Send initial hello command, to start communications
     if (!this->send_cmd("hello\r\n")) {
@@ -141,7 +141,7 @@ bool FTPClient::send_cmd(int *sock, string message) {
     if (send(*sock, message.c_str(), strlen(message.c_str()), 0) < 0) {
         return false;
     }
-    Helper::print_message("Sent command: "+message.substr(0, message.size()-1));
+    Helper::print_message("request: "+message.substr(0, message.size()-1));
     return true;
 }
 // Overload method
@@ -162,7 +162,10 @@ string FTPClient::get_response(int *sock) {
         Helper::raiseError("Data receive failed!");
     }
     buffer[n-1] = '\0';
-    return buffer;
+
+    string buff(buffer);
+    reply = "response: " + buff;
+    return reply;
 }
 // Overload method
 string FTPClient::get_response() {

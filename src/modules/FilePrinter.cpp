@@ -1,7 +1,3 @@
-//
-// Created by viktor on 04-03-17.
-//
-
 #include "FilePrinter.h"
 
 int printFileCont (string filePath) {

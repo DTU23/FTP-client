@@ -79,8 +79,8 @@ int main( int argc, char** argv) {
                     if (!ftpClient.send_cmd("STOR upload.txt\r\n")) {
                         Helper::raiseError("Error storing file.txt");
                     }
+                    Helper::print_message(ftpClient.get_response());
                     DataSocket.send_file("send.txt");
-                    Helper::print_message("File sent to FTP server!");
                     break;
                 }
                 case 4:
