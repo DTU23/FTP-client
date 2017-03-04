@@ -79,6 +79,6 @@ int main( int argc, char** argv) {
         Helper::raiseError("Error storing file.txt");
     }
     DataSocket.send_file("send.txt");
-    Helper::print_message("File send to FTP server!");
+    Helper::print_message("File sent to FTP server!");
     return 0;
 }
