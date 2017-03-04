@@ -86,25 +86,26 @@ void DataSocket::receive_file(int *sock, string file_name) {
     string file = this->home_path+"/Desktop/"+file_name;
     received_file = fopen(file.c_str(), "w");
 
-    // Rais error if we can't open file
+    // Raise error if we can't open file
     if (received_file == NULL) {
         Helper::raiseError("Failed to open file!");
     }
     /* Store filesize in variable */
     int chunk = recv(*sock, buffer, BUFFER_SIZE, MSG_PEEK);
 
+    // Write large files in chunks
     if(chunk >= BUFFER_SIZE){
         Helper::print_message("Too Large!");
         do{
             chunk = recv(*sock, buffer, chunk, 0);
             fwrite(buffer, sizeof(char), chunk, received_file);
         }while (chunk > 0);
+    // Smaller files can be written directly
     }else{
         // Write buffer to file
         fwrite(buffer, sizeof(char), chunk, received_file);
     }
-
-    // Close file and socket
+    // Close file
     fclose(received_file);
 }
 // Overload method

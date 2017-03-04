@@ -5,6 +5,8 @@
 #define SERVER_IP "130.226.195.126"
 #define FTP_PORT 21
 
+void print_menu();
+
 int main( int argc, char** argv) {
     // Useless ASCII-art welcome message printed
     Helper::print_message(" ____    ______  __  __      ____                                                   ___       __     \n"
@@ -28,16 +30,7 @@ int main( int argc, char** argv) {
 
     bool run = true;
     char menu_choice[256];
-    Helper::print_message(" ___  ___  ___   ___  _  _             _   \n"
-                                  "| __>|_ _|| . \\ |  _>| |<_> ___ ._ _ _| |_ \n"
-                                  "| _>  | | |  _/ | <__| || |/ ._>| ' | | |  \n"
-                                  "|_|   |_| |_|   `___/|_||_|\\___.|_|_| |_|  \n"
-                                  "                                           ");
-    Helper::print_message("\t1. Download file.txt");
-    Helper::print_message("\t2. Download large file");
-    Helper::print_message("\t3. Upload file");
-    Helper::print_message("\t4. Print file contents");
-    Helper::print_message("\t5. Exit");
+    print_menu();
     while(run)
     {
         assert(fgets(menu_choice, 256, stdin) != NULL);
@@ -86,6 +79,19 @@ int main( int argc, char** argv) {
                     break;
             }
         }
+        print_menu();
     }
-    return 0;
+}
+
+void print_menu(){
+    Helper::print_message(" ___  ___  ___   ___  _  _             _   \n"
+                                  "| __>|_ _|| . \\ |  _>| |<_> ___ ._ _ _| |_ \n"
+                                  "| _>  | | |  _/ | <__| || |/ ._>| ' | | |  \n"
+                                  "|_|   |_| |_|   `___/|_||_|\\___.|_|_| |_|  \n"
+                                  "                                           ");
+    Helper::print_message("\t1. Download file.txt");
+    Helper::print_message("\t2. Download large file");
+    Helper::print_message("\t3. Upload file");
+    Helper::print_message("\t4. Print file contents");
+    Helper::print_message("\t5. Exit");
 }
