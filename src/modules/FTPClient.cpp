@@ -14,6 +14,18 @@ FTPClient::FTPClient(string server_ip, uint16_t port, string user, string passwo
     this->server.sin_addr.s_addr = inet_addr(&this->server_ip[0]);
 }
 
+
+/**
+ * Destructor
+ */
+FTPClient::~FTPClient(int *sock) {
+    close(*sock);
+}
+// Overload method
+FTPClient::~FTPClient(void) {
+    FTPClient::~FTPClient(&this->sock);
+}
+
 /**
  * Method will take a string-response for passive-mode-entry and split it out into segments and calculate port-number
  * @param msg_227

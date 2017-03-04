@@ -32,6 +32,8 @@ private:
     int sock;
 public:
     FTPClient(string server_ip, uint16_t port, string user, string password, bool passive_mode);
+    ~FTPClient(void);
+    ~FTPClient(int *sock);
     uint16_t get_port_number(string msg_227);
     bool create_socket();
     bool create_socket(int *sock);

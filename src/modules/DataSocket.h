@@ -29,6 +29,8 @@ private:
     string home_path;
 public:
     DataSocket(string server_ip, uint16_t port);
+    ~DataSocket(void);
+    ~DataSocket(int *sock);
     bool create_socket();
     bool create_socket(int *sock);
     bool open_connection();

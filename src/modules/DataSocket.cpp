@@ -16,6 +16,16 @@ DataSocket::DataSocket(string server_ip, uint16_t port) {
         this->home_path = getenv("HOME");
     #endif
 }
+/**
+ * Destructor
+ */
+DataSocket::~DataSocket(int *sock) {
+    close(*sock);
+}
+// Overload method
+DataSocket::~DataSocket(void) {
+    DataSocket::~DataSocket(&this->sock);
+}
 
 /**
  * Method for creating a socket from socket pointer
@@ -80,7 +90,6 @@ void DataSocket::receive_file(int *sock, string file_name) {
 
     // Close file and socket
     fclose(received_file);
-    close(*sock);
 }
 // Overload method
 void DataSocket::receive_file(string file_name) {
@@ -120,7 +129,6 @@ void DataSocket::send_file(int *sock, string file_name, string upload_path) {
     if (n < 1){
         Helper::raiseError("File not uploaded!");
     }
-    close(*sock);
 }
 // Overload method
 void DataSocket::send_file(string file_name, string upload_path) {
