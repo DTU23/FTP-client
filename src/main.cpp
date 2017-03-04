@@ -60,7 +60,13 @@ int main( int argc, char** argv) {
                     Helper::print_message("File retrieved");
                     break;
                 case 2:
-                    Helper::print_message("you chose 2");
+                    // Send retrieve command on FTPClient
+                    if (!ftpClient.send_cmd("RETR /pub/62501/linuxchecklist.pdf\r\n")) {
+                        Helper::raiseError("Error receiving file.txt");
+                    }
+                    // Receive file from socket.
+                    DataSocket.receive_file("linuxchecklist.pdf");
+                    Helper::print_message("File retrieved");
                     break;
                 case 3:
                     // Send store command on FTPClient
