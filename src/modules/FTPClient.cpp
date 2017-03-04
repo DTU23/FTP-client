@@ -12,6 +12,51 @@ FTPClient::FTPClient(string server_ip, uint16_t port, string user, string passwo
     this->server.sin_family = AF_INET;
     this->server.sin_port = htons(port);
     this->server.sin_addr.s_addr = inet_addr(&this->server_ip[0]);
+
+    // Create socket
+    if (!this->create_socket()) {
+        Helper::raiseError("Couldn't create socket!");
+    }
+    Helper::print_message("Socket Created!");
+
+    // Open connection
+    if (!this->open_connection()) {
+        Helper::raiseError("Couldn't open connection!");
+    }
+    Helper::print_message("Connection successful!");
+
+    // Send initial hello command, to start communications
+    if (!this->send_cmd("hello\r\n")) {
+        Helper::raiseError("Data send error!");
+    }
+    Helper::print_message(this->get_response());
+
+
+    // Set user anonymous
+    string user_cmd = "USER "+this->user+"\r\n";
+    if (!this->send_cmd(user_cmd)) {
+        Helper::raiseError("Data send error!");
+    }
+    // Get response message for USER command
+    Helper::print_message(this->get_response());
+    // Get 2nd response message asking for password
+    Helper::print_message(this->get_response());
+
+    string pass_cmd = "PASS "+this->password+"\r\n";
+    // Send password (can be anything)
+    if (!this->send_cmd(pass_cmd)) {
+        Helper::raiseError("Data send error!");
+    }
+    Helper::print_message(this->get_response());
+
+    // Enter passive mod
+    if (this->passive_mode && !this->send_cmd("PASV\r\n")) {
+        Helper::raiseError("Unable to enter passive mode!");
+    }
+    // Translate passive mode response to socket port-number
+    string response = this->get_response();
+    Helper::print_message(response);
+    this->set_data_port_number(response);
 }
 
 
@@ -25,11 +70,22 @@ FTPClient::~FTPClient(void) {
 }
 
 /**
+ * Method for getting data-port
+ * @return
+ */
+uint16_t FTPClient::get_data_port_number(){
+    if(this->data_port == NULL || this->data_port==0){
+        Helper::raiseError("Data port not calculated!");
+    }
+    return this->data_port;
+}
+
+/**
  * Method will take a string-response for passive-mode-entry and split it out into segments and calculate port-number
  * @param msg_227
  * @return port number as unsigned integer
  */
-uint16_t FTPClient::get_port_number(string msg_227) {
+void FTPClient::set_data_port_number(string msg_227) {
     // Split string where parenthesis starts and ends
     unsigned long ip_start = msg_227.find('(');
     unsigned long ip_end = msg_227.find(')');
@@ -45,8 +101,8 @@ uint16_t FTPClient::get_port_number(string msg_227) {
         seglist.push_back(segment);
     }
 
-    // Return port-number calculation
-    return atoi(seglist[4].c_str()) * 256 + atoi(seglist[5].c_str());
+    // Set data port number
+    this->data_port = atoi(seglist[4].c_str()) * 256 + atoi(seglist[5].c_str());
 }
 
 
@@ -95,7 +151,7 @@ bool FTPClient::send_cmd(int *sock, string message) {
     if (send(*sock, message.c_str(), strlen(message.c_str()), 0) < 0) {
         return false;
     }
-    Helper::print_message(message);
+    Helper::print_message("Sent command: "+message.substr(0, message.size()-1));
     return true;
 }
 // Overload method
@@ -115,7 +171,7 @@ string FTPClient::get_response(int *sock) {
     if (n < 0) {
         Helper::raiseError("Data receive failed!");
     }
-    buffer[n] = '\0';
+    buffer[n-1] = '\0';
     return buffer;
 }
 // Overload method

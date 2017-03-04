@@ -24,7 +24,7 @@ class FTPClient
 {
 private:
     string server_ip;
-    uint16_t port;
+    uint16_t port, data_port;
     string user;
     string password;
     bool passive_mode;
@@ -33,7 +33,8 @@ private:
 public:
     FTPClient(string server_ip, uint16_t port, string user, string password, bool passive_mode);
     ~FTPClient(void);
-    uint16_t get_port_number(string msg_227);
+    uint16_t get_data_port_number();
+    void set_data_port_number(string msg_227);
     bool create_socket();
     bool create_socket(int *sock);
     bool open_connection();

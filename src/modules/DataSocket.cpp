@@ -15,6 +15,17 @@ DataSocket::DataSocket(string server_ip, uint16_t port) {
     #else
         this->home_path = getenv("HOME");
     #endif
+    // create new socket
+    if (!this->create_socket()) {
+        Helper::raiseError("Couldn't create Data transfer socket!");
+    }
+    Helper::print_message("Data transfer socket created");
+
+    // open socket connection
+    if (!this->open_connection()) {
+        Helper::raiseError("Couldn't open connection!");
+    }
+
 }
 /**
  * Destructor
