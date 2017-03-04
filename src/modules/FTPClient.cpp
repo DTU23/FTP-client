@@ -18,12 +18,10 @@ FTPClient::FTPClient(string server_ip, uint16_t port, string user, string passwo
 /**
  * Destructor
  */
-FTPClient::~FTPClient(int *sock) {
-    close(*sock);
-}
 // Overload method
 FTPClient::~FTPClient(void) {
-    FTPClient::~FTPClient(&this->sock);
+    Helper::print_message("Closing FTP Socket!");
+    FTPClient::close_socket(&this->sock);
 }
 
 /**
@@ -123,4 +121,12 @@ string FTPClient::get_response(int *sock) {
 // Overload method
 string FTPClient::get_response() {
     return FTPClient::get_response(&this->sock);
+}
+
+/**
+ * Method for closing socket (called by destructor)
+ * @param sock
+ */
+void FTPClient::close_socket(int *sock){
+    close(*sock);
 }

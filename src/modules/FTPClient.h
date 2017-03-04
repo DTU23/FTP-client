@@ -33,7 +33,6 @@ private:
 public:
     FTPClient(string server_ip, uint16_t port, string user, string password, bool passive_mode);
     ~FTPClient(void);
-    ~FTPClient(int *sock);
     uint16_t get_port_number(string msg_227);
     bool create_socket();
     bool create_socket(int *sock);
@@ -43,6 +42,7 @@ public:
     bool send_cmd(int *sock, string message);
     string get_response();
     string get_response(int *sock);
+    void close_socket(int *sock);
 };
 
 #endif // CLIENTSOCKET_H

@@ -19,12 +19,10 @@ DataSocket::DataSocket(string server_ip, uint16_t port) {
 /**
  * Destructor
  */
-DataSocket::~DataSocket(int *sock) {
-    close(*sock);
-}
 // Overload method
 DataSocket::~DataSocket(void) {
-    DataSocket::~DataSocket(&this->sock);
+    Helper::print_message("Closing Data Socket!");
+    DataSocket::close_socket(&this->sock);
 }
 
 /**
@@ -137,4 +135,12 @@ void DataSocket::send_file(string file_name, string upload_path) {
 // Overload method
 void DataSocket::send_file(string file_name) {
     DataSocket::send_file(file_name, "/");
+}
+
+/**
+ * Method for closing socket (called by destructor)
+ * @param sock
+ */
+void DataSocket::close_socket(int *sock) {
+    close(*sock);
 }

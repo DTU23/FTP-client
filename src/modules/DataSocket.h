@@ -30,7 +30,6 @@ private:
 public:
     DataSocket(string server_ip, uint16_t port);
     ~DataSocket(void);
-    ~DataSocket(int *sock);
     bool create_socket();
     bool create_socket(int *sock);
     bool open_connection();
@@ -40,6 +39,7 @@ public:
     void send_file(string file_name);
     void send_file(string file_name, string upload_path);
     void send_file(int *sock, string file_name, string upload_path);
+    void close_socket(int *sock);
 };
 
 
