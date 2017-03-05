@@ -32,7 +32,6 @@ DataSocket::DataSocket(string server_ip, uint16_t port) {
 /**
  * Destructor
  */
-// Overload method
 DataSocket::~DataSocket(void) {
     DataSocket::close_socket();
 }
