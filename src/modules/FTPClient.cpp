@@ -64,7 +64,8 @@ FTPClient::~FTPClient(void) {
  * @return
  */
 uint16_t FTPClient::get_data_port_number(){
-    if(this->data_port == NULL || this->data_port==0){
+    assert(this->data_port != NULL);
+    if(this->data_port==0){
         Helper::raiseError("Data port not calculated!");
     }
     return this->data_port;
