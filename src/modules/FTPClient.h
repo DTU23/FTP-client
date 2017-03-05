@@ -11,10 +11,10 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <netdb.h>
 #include <unistd.h>
 #include <fstream>
+#include <cassert>
 // User Imports
 #include "Helper.h"
 
