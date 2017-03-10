@@ -26,7 +26,7 @@ private:
     string home_path;
     bool create_socket(int *sock);
     bool open_connection(int *sock);
-    void receive_file(int *sock, string file_name);
+    string receive_file(int *sock, string file_name);
     void send_file(int *sock, string file_name, string upload_path);
     void close_socket(int *sock);
 public:
@@ -34,7 +34,7 @@ public:
     ~DataSocket(void);
     bool create_socket();
     bool open_connection();
-    void receive_file(string file_name);
+    string receive_file(string file_name);
     void send_file(string file_name);
     void send_file(string file_name, string upload_path);
     void close_socket();

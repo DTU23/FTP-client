@@ -44,6 +44,7 @@ public:
     bool send_cmd(string message);
     bool enter_passive_mode();
     string get_response();
+    void close_socket();
 };
 
 #endif // CLIENTSOCKET_H

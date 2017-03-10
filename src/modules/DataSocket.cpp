@@ -20,10 +20,12 @@ DataSocket::DataSocket(string server_ip, uint16_t port) {
     #else
         this->home_path = getenv("HOME");
     #endif
+    // Create socket
     if(this->create_socket() < 0){
         Helper::raiseError("Erorr creating socket");
     }
     Helper::print_message("Data socket created!");
+    // Open connection
     if(this->open_connection() < 0){
         Helper::raiseError("Error opening connection!");
     }
@@ -42,6 +44,7 @@ DataSocket::~DataSocket(void) {
  * @return boolean for success or error
  */
 bool DataSocket::create_socket(int *sock) {
+    // Create socket on received pointer-address
     *sock = socket(AF_INET, SOCK_STREAM, 0);
     if (*sock == -1) {
         return false;
@@ -61,6 +64,7 @@ bool DataSocket::create_socket() {
  * @return boolean for success or error
  */
 bool DataSocket::open_connection(int *sock) {
+    // invoke socket.h connect() method on pointer address
     if (connect(*sock, (struct sockaddr *) &this->server, sizeof(server)) < 0) {
         return false;
     }
@@ -75,38 +79,39 @@ bool DataSocket::open_connection() {
  * Method for receiving file-data
  * @param sock
  */
-void DataSocket::receive_file(int *sock, string file_name) {
+string DataSocket::receive_file(int *sock, string file_name) {
+    // Create empty receive buffer and a file-type pointer
     char buffer[BUFFER_SIZE];
     FILE *received_file;
     // Open file for writing
     string file = this->home_path+"/Desktop/"+file_name;
+    // set pointer address as a filestream
     received_file = fopen(file.c_str(), "w");
-
     // Raise error if we can't open file
     if (received_file == NULL) {
         Helper::raiseError("Failed to open file!");
     }
     // Store first chunk of file
     int chunk = recv(*sock, buffer, BUFFER_SIZE, 0);
-
-    // Write large files in chunks
-    if(chunk >= BUFFER_SIZE){
-        do{
-            fwrite(buffer, sizeof(char), chunk, received_file);
-            chunk = recv(*sock, buffer, chunk, 0); // Retrieve next chunk of file
-        }while (chunk > 0);
-    // Smaller files can be written directly
-    }else{
-        // Write buffer to file
+    if(chunk > BUFFER_SIZE){
+        // Smaller files can be written directly
         fwrite(buffer, sizeof(char), chunk, received_file);
+    }else{
+        do{
+            // Write buffer to file until it's empty
+            fwrite(buffer, sizeof(char), chunk, received_file);
+            // Retrieve next chunk of file
+            chunk = recv(*sock, buffer, chunk, 0);
+        }while (chunk > 0);
     }
     // Close file
     fclose(received_file);
-
+    // Return filepath (to be used by printer function)
+    return this->home_path+"/Desktop/"+file_name;
 }
 // Overload method
-void DataSocket::receive_file(string file_name) {
-    DataSocket::receive_file(&this->sock, file_name);
+string DataSocket::receive_file(string file_name) {
+    return DataSocket::receive_file(&this->sock, file_name);
 }
 
 /**
@@ -116,28 +121,24 @@ void DataSocket::receive_file(string file_name) {
  * @param upload_path path where file should be uploaded
  */
 void DataSocket::send_file(int *sock, string file_name, string upload_path) {
+    // Create empty receive buffer and a file-type pointer
     char buffer[BUFFER_SIZE];
     FILE *send_file;
-
     // Open file for writing
     string file = this->home_path+"/Desktop/"+file_name;
-
     // Raise error if we can't open file
     if (send_file == NULL) {
         Helper::raiseError("Failed to open file!");
     }
-
     ifstream infile (file,ifstream::binary);
-
     // get size of file
     infile.seekg (0,infile.end);
     long size = infile.tellg();
     infile.seekg (0);
-
     // read content of infile
     infile.read (buffer,size);
+    // Write it to datasocket
     write(*sock,buffer, strlen(buffer));
-
     int n = send(*sock, &buffer[0], size, 0);
     if (n < 1){
         Helper::raiseError("File not uploaded!");

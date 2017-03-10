@@ -1,4 +1,5 @@
 #include "FTPClient.h"
+#define BUFFER_SIZE 1024
 
 /**
  * Constructor method
@@ -23,13 +24,13 @@ FTPClient::FTPClient(string server_ip, uint16_t port, string user, string passwo
         Helper::raiseError("Couldn't open connection!");
     }
     Helper::print_message("FTP Connection successful!");
-
+    // Empty out response buffer for empty messages
+    Helper::print_message(this->get_response());
     // Send initial hello command, to start communications
     if (!this->send_cmd("hello\r\n")) {
         Helper::raiseError("Data send error!");
     }
     Helper::print_message(this->get_response());
-
 
     // Set user anonymous
     string user_cmd = "USER "+this->user+"\r\n";
@@ -37,8 +38,6 @@ FTPClient::FTPClient(string server_ip, uint16_t port, string user, string passwo
         Helper::raiseError("Data send error!");
     }
     // Get response message for USER command
-    Helper::print_message(this->get_response());
-    // Get 2nd response message asking for password
     Helper::print_message(this->get_response());
 
     string pass_cmd = "PASS "+this->password+"\r\n";
@@ -53,17 +52,16 @@ FTPClient::FTPClient(string server_ip, uint16_t port, string user, string passwo
 /**
  * Destructor
  */
-// Overload method
 FTPClient::~FTPClient(void) {
-    Helper::print_message("Closing FTP Socket!");
-    FTPClient::close_socket(&this->sock);
+    FTPClient::close_socket();
 }
 
 /**
- * Method for getting data-port
- * @return
+ * Method for getting data-port calculated by set_data_port_number method
+ * @return data_port number
  */
 uint16_t FTPClient::get_data_port_number(){
+    // assert used to avoid NULL arithmatic
     assert(this->data_port != NULL);
     if(this->data_port==0){
         Helper::raiseError("Data port not calculated!");
@@ -74,7 +72,6 @@ uint16_t FTPClient::get_data_port_number(){
 /**
  * Method will take a string-response for passive-mode-entry and split it out into segments and calculate port-number
  * @param msg_227
- * @return port number as unsigned integer
  */
 void FTPClient::set_data_port_number(string msg_227) {
     // Split string where parenthesis starts and ends
@@ -98,11 +95,12 @@ void FTPClient::set_data_port_number(string msg_227) {
 
 
 /**
- * Method for creating a socket from socket pointer
+ * Method for creating a socket on socket pointer
  * @param sock
  * @return boolean for success or error
  */
 bool FTPClient::create_socket(int *sock) {
+    // Create socket on received pointer-address
     *sock = socket(AF_INET, SOCK_STREAM, 0);
     if (*sock == -1) {
         return false;
@@ -111,17 +109,16 @@ bool FTPClient::create_socket(int *sock) {
 }
 // Overload method
 bool FTPClient::create_socket() {
-    FTPClient::create_socket(&this->sock);
+    return FTPClient::create_socket(&this->sock);
 }
 
 /**
  * Method for opening a socket-connection to remote server
  * @param sock
- * @param port
- * @param ip
  * @return boolean for success or error
  */
 bool FTPClient::open_connection(int *sock) {
+    // invoke socket.h connect() method on pointer address
     if (connect(*sock, (struct sockaddr *) &this->server, sizeof(this->server)) < 0) {
         return false;
     }
@@ -134,11 +131,12 @@ bool FTPClient::open_connection() {
 
 /**
  * Method for sending a command to an open socket-connection
- * @param sock
- * @param message
+ * @param sock pointer
+ * @param message string
  * @return boolean for success or error
  */
 bool FTPClient::send_cmd(int *sock, string message) {
+    // invoke socket.h send() method on pointer address
     if (send(*sock, message.c_str(), strlen(message.c_str()), 0) < 0) {
         return false;
     }
@@ -156,16 +154,21 @@ bool FTPClient::send_cmd(string message) {
  * @return
  */
 string FTPClient::get_response(int *sock) {
-    char buffer[BUFSIZ];
+    // Create a receive buffer and response string (empty)
+    char buffer[BUFFER_SIZE];
     string reply;
-    int n = recv(*sock, &buffer[0], BUFSIZ, 0);
+    // Get size of received packet & write it to the buffer
+    int n = recv(*sock, &buffer[0], BUFFER_SIZE, 0);
     if (n < 0) {
         Helper::raiseError("Data receive failed!");
     }
+    // put null-termination on the last place in the buffer to act like a string
     buffer[n-1] = '\0';
-
+    // Convert buffer to string
     string buff(buffer);
+    // Build reply message string
     reply = "response: " + buff;
+    // Return reply
     return reply;
 }
 // Overload method
@@ -184,15 +187,24 @@ bool FTPClient::enter_passive_mode(){
     }
     // Translate passive mode response to socket port-number
     string response = this->get_response();
+    // Print response
     Helper::print_message(response);
+    // Apply new dataport for passive mode
     this->set_data_port_number(response);
     return true;
 }
-
 /**
  * Method for closing socket (called by destructor)
  * @param sock
  */
-void FTPClient::close_socket(int *sock){
-    close(*sock);
+void FTPClient::close_socket(int *sock) {
+    if(close(*sock) < 0){
+        Helper::raiseError("Could not close FTP socket!");
+    }
+    Helper::print_message("FTP socket closed!");
+}
+// Overload method
+void FTPClient::close_socket() {
+    Helper::print_message("Closing FTP socket...");
+    FTPClient::close_socket(&this->sock);
 }

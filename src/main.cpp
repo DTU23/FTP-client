@@ -32,12 +32,15 @@ int main( int argc, char** argv) {
     // Instantiate FTPClient as anonymous user using blank password
     FTPClient ftpClient(SERVER_IP, FTP_PORT, "anonymous", "");
 
+    // Flag for stopping loop
     bool run = true;
-    char menu_choice[256];
-    print_menu();
+    do{
 
-    while(run)
-    {
+        // buffer for receiving menu-choice
+        char menu_choice[256];
+        // Print menu before asking for a new input
+        print_menu();
+        // assert used to avoid NULL arithmatic
         assert(fgets(menu_choice, 256, stdin) != NULL);
         // Detect enter-button
         if(menu_choice[strlen(menu_choice) - 1] == '\n') {
@@ -49,15 +52,19 @@ int main( int argc, char** argv) {
                  * Choice 1 will download the small file.txt from the root-folder
                  */
                 case 1:{
+                    // Enter passive mod on FTP-socket
                     ftpClient.enter_passive_mode();
+                    // Open datasocket on FTP data-port
                     DataSocket DataSocket(SERVER_IP, ftpClient.get_data_port_number());
                     // Send retrieve command on FTPClient
                     if (!ftpClient.send_cmd("RETR file.txt\r\n")) {
                         Helper::raiseError("Error receiving file.txt");
                     }
                     Helper::print_message(ftpClient.get_response());
-                    // Receive file from socket.
-                    DataSocket.receive_file("file.txt");
+                    Helper::print_message("File contents: ");
+                    // Receive file from socket and print contents from filepath returned
+                    printFileCont(DataSocket.receive_file("file.txt"));
+                    // Print ftp-client response
                     Helper::print_message(ftpClient.get_response());
                     break;
                 }
@@ -65,7 +72,9 @@ int main( int argc, char** argv) {
                  * Choice 2 will download the larger pdf-file from the /pub/62501/ folder
                  */
                 case 2:{
+                    // Enter passive mod on FTP-socket
                     ftpClient.enter_passive_mode();
+                    // Open datasocket on FTP data-port
                     DataSocket DataSocket(SERVER_IP, ftpClient.get_data_port_number());
                     // Send retrieve command on FTPClient
                     if (!ftpClient.send_cmd("RETR /pub/62501/linuxchecklist.pdf\r\n")) {
@@ -73,7 +82,10 @@ int main( int argc, char** argv) {
                     }
                     Helper::print_message(ftpClient.get_response());
                     // Receive file from socket.
-                    DataSocket.receive_file("linuxchecklist.pdf");
+                    Helper::print_message("File contents: ");
+                    // Receive file from socket and print contents from filepath returned
+                    printFileCont(DataSocket.receive_file("linuxchecklist.pdf"));
+                    // Print ftp-client response
                     Helper::print_message(ftpClient.get_response());
                     break;
                 }
@@ -81,26 +93,23 @@ int main( int argc, char** argv) {
                  * Choice 3 will attempt uploading a file
                  */
                 case 3:{
+                    // Enter passive mod on FTP-socket
                     ftpClient.enter_passive_mode();
+                    // Open datasocket on FTP data-port
                     DataSocket DataSocket(SERVER_IP, ftpClient.get_data_port_number());
-                    // Send store command on FTPClient
+                    // Send STOR-command on FTPClient
                     if (!ftpClient.send_cmd("STOR upload.txt\r\n")) {
                         Helper::raiseError("Error storing file.txt");
                     }
-                    Helper::print_message(ftpClient.get_response());
+                    // Print response
                     DataSocket.send_file("send.txt");
+                    Helper::print_message(ftpClient.get_response());
                     break;
                 }
                 /**
-                 * Choice 4 will print file contents
+                 * Choice 4 will stop the loop and control sequence will come to an end
                  */
                 case 4:
-                    printFileCont("/home/viktor/Desktop/file.txt");
-                    break;
-                /**
-                 * Choice 5 will stop the loop end control sequence will come to an end
-                 */
-                case 5:
                     run = false;
                     break;
                 /**
@@ -111,9 +120,7 @@ int main( int argc, char** argv) {
                     break;
             }
         }
-        // Re-print menu before asking for a new input
-        print_menu();
-    }
+    }while(run);
 }
 
 /**
@@ -128,6 +135,5 @@ void print_menu(){
     Helper::print_message("\t1. Download file.txt (11 Byte)");
     Helper::print_message("\t2. Download linuxchecklist.pdf (268,4KB)");
     Helper::print_message("\t3. Upload file");
-    Helper::print_message("\t4. Print file contents");
-    Helper::print_message("\t5. Exit");
+    Helper::print_message("\t4. Exit");
 }
