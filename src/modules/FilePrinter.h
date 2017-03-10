@@ -1,6 +1,5 @@
 #ifndef FILEPRINTER_H
 #define FILEPRINTER_H
-
 //Include input and output from screen
 #include <iostream>
 // Manipulators for streams
@@ -15,5 +14,7 @@
 using namespace std;
 
 int printFileCont (string filePath);
+
+int get_file_size(string filePath);
 
 #endif //FILEPRINTER_H
