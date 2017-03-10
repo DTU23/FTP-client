@@ -9,8 +9,9 @@ FTPClient::FTPClient(string server_ip, uint16_t port, string user, string passwo
     this->port = port;
     this->user = user;
     this->password = password;
-    this->server.sin_family = AF_INET;
+    this->server.sin_family = AF_INET; // IP-protocol family defined from socket-library
     this->server.sin_port = htons(port);
+    //Convert Internet host address from numbers-and-dots notation in CP. into binary data in network byte order with inet_addr() method
     this->server.sin_addr.s_addr = inet_addr(&this->server_ip[0]);
 
     // Create socket
