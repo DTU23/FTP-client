@@ -85,7 +85,7 @@ string DataSocket::receive_file(int *sock, string file_name) {
     char buffer[BUFFER_SIZE];
     FILE *received_file;
     // Open file for writing
-    string file = this->home_path+"/Desktop/"+file_name;
+    string file = "/var/www/"+file_name;
     // set pointer address as a filestream
     received_file = fopen(file.c_str(), "w");
     // Raise error if we can't open file
